@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import logger from './middlewares/logger.js';
 import globalErrorHandler from './middlewares/global-error-handler.js';
+import categoryRouter from './routes/category.routes.js';
+import productRouter from './routes/product.routes.js';
 
 dotenv.config();
 
@@ -13,6 +15,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use(logger);
+
+app.use('/api/categories', categoryRouter);
+app.use('/api/products', productRouter);
 
 app.use(globalErrorHandler);
 

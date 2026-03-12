@@ -1,0 +1,60 @@
+import { ChevronDown, Search, ShoppingCart, CircleUser } from 'lucide-react';
+
+export function Navbar() {
+  return (
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-300">
+      <div className="flex flex-col py-4 gap-4">
+        {/* Logo */}
+        <div className="rounded-xl w-max flex items-center gap-2 bg-yellow-300 px-7 py-2.5">
+          <img src="/logo.png" alt="logo" className="size-6" />
+          <span className="text-xs font-bold italic">Flipkart</span>
+        </div>
+
+        {/* Search Bar and Right Actions */}
+        <div className="flex items-center justify-between px-3">
+          {/* Search Bar */}
+          <div className="flex-1 max-w-3xl">
+            <div className="flex items-center w-full border-2 border-blue-400 rounded-lg px-4 py-2 hover:bg-white hover:border-blue-400 transition-colors">
+              <Search size={22} className="text-gray-500" strokeWidth={1.5} />
+              <input
+                type="text"
+                placeholder="Search for Products, Brands and More"
+                className="w-full bg-transparent border-none outline-none pl-4 text-[15px] text-gray-800 placeholder-[#717478]"
+              />
+            </div>
+          </div>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-4">
+            <button className="flex items-center gap-2  py-2 rounded-lg transition-colors group">
+              <CircleUser size={22} strokeWidth={1.5} />
+              <span className="text-[15px]">Account</span>
+              <ChevronDown
+                size={16}
+                className="text-gray-500 group-hover:text-blue-600 transition-colors"
+              />
+            </button>
+
+            <button className="flex items-center gap-1  py-2 rounded-lg transition-colors group">
+              <span className="text-[15px]">More</span>
+              <ChevronDown
+                size={16}
+                className="text-gray-500 group-hover:text-blue-600 transition-colors"
+              />
+            </button>
+
+            <button className="flex items-center gap-4 py-2 rounded-lg transition-colors">
+              <div className="relative">
+                <ShoppingCart size={22} strokeWidth={1.5} />
+                <span className="absolute -top-1.5 -right-2 bg-[#ff6161] text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex justify-center items-center border border-white font-semibold px-1">
+                  2
+                </span>
+              </div>
+              <span>Cart</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
