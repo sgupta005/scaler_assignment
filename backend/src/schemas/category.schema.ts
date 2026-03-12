@@ -22,4 +22,5 @@ export const categorySectionsQuerySchema = z.object({
       message: 'productsPerCategory must be between 1 and 40',
     })
     .optional(),
+  parentSlug: z.string().optional(),
 });

@@ -4,6 +4,7 @@ export async function fetchCategorySections(
   cursor: number,
   limitCategories?: number,
   productsPerCategory?: number,
+  parentSlug?: string,
 ): Promise<CategorySectionsResponse> {
   const params = new URLSearchParams({
     cursor: String(cursor),
@@ -11,6 +12,7 @@ export async function fetchCategorySections(
     ...(productsPerCategory && {
       productsPerCategory: String(productsPerCategory),
     }),
+    ...(parentSlug && { parentSlug }),
   });
 
   const res = await fetch(`/api/categories/sections?${params}`);

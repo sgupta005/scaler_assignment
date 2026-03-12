@@ -1,16 +1,49 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router';
 import { ProductRow } from '../features/product-list/product-row';
 import { CategoryTabs } from '../components/category-tabs';
 import { fetchCategorySections } from '../api/categories';
 import type { CategorySection } from '../types/categories';
 
 export function ProductListPage() {
+  const [searchParams] = useSearchParams();
+  const categorySlug = searchParams.get('categorySlug') ?? undefined;
+
   const [sections, setSections] = useState<CategorySection[]>([]);
-  const [nextCursor, setNextCursor] = useState<number | null>(0);
+  const [nextCursor, setNextCursor] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
+  // Reset and load when category changes (including initial mount)
+  useEffect(() => {
+    let cancelled = false;
+
+    setSections([]);
+    setNextCursor(null);
+    setLoading(true);
+    setError(null);
+
+    fetchCategorySections(0, undefined, undefined, categorySlug)
+      .then((data) => {
+        if (cancelled) return;
+        setSections(data.sections);
+        setNextCursor(categorySlug ? null : data.nextCursor);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setError(err instanceof Error ? err.message : 'Something went wrong');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [categorySlug]);
+
+  // Append next page of sections — only used by the infinite scroll in the "All" view
   const loadMore = useCallback(async () => {
     if (loading || nextCursor === null) return;
 
@@ -29,25 +62,19 @@ export function ProductListPage() {
   }, [loading, nextCursor]);
 
   useEffect(() => {
-    loadMore();
-  }, []);
-
-  useEffect(() => {
     const sentinel = sentinelRef.current;
-    if (!sentinel || nextCursor === null) return;
+    if (!sentinel || nextCursor === null || categorySlug) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          loadMore();
-        }
+        if (entries[0].isIntersecting) loadMore();
       },
       { rootMargin: '200px' },
     );
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [loadMore, nextCursor]);
+  }, [loadMore, nextCursor, categorySlug]);
 
   return (
     <>
@@ -80,7 +107,13 @@ export function ProductListPage() {
         </div>
       )}
 
-      {nextCursor !== null && !loading && (
+      {categorySlug && !loading && !error && sections.length === 0 && (
+        <div className="flex justify-center py-16 text-gray-500 text-sm">
+          No products found in this category.
+        </div>
+      )}
+
+      {!categorySlug && nextCursor !== null && !loading && (
         <div ref={sentinelRef} className="h-1" />
       )}
     </>

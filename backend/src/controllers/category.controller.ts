@@ -18,15 +18,29 @@ export const getCategorySections = asyncHandler(
       cursor = DEFAULT_CATEGORY_SECTIONS_QUERY_PARAMS.cursor,
       limitCategories = DEFAULT_CATEGORY_SECTIONS_QUERY_PARAMS.limitCategories,
       productsPerCategory = DEFAULT_CATEGORY_SECTIONS_QUERY_PARAMS.productsPerCategory,
+      parentSlug,
     } = parsed.data;
 
+    let parentId: string | undefined;
+    if (parentSlug) {
+      const parent = await prisma.category.findUnique({
+        where: { slug: parentSlug },
+        select: { id: true },
+      });
+      if (!parent) {
+        throw new CustomError('Parent category not found', 404);
+      }
+      parentId = parent.id;
+    }
+
     const baseWhere = {
+      ...(parentId ? { parentId } : {}),
       products: {
         some: {
           isActive: true,
         },
       },
-    } as const;
+    };
 
     // check if cursor is out of range
     const totalCategories = await prisma.category.count({
