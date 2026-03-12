@@ -1,0 +1,15 @@
+model User {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(150)
+  password  String
+  phone     String?  @db.VarChar(15)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  addresses     Address[]
+  orders        Order[]
+  wishlistItems WishlistItem[]
+  carts         Cart[]
+
+  @@map("users")
+}

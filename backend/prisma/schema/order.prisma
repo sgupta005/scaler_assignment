@@ -1,0 +1,48 @@
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  userId      String      @map("user_id")
+  addressId   String?     @map("address_id")
+  status      OrderStatus @default(PENDING)
+  subtotal    Decimal     @db.Decimal(10, 2)
+  discount    Decimal     @default(0) @db.Decimal(10, 2)
+  totalAmount Decimal     @map("total_amount") @db.Decimal(10, 2)
+  placedAt    DateTime    @default(now()) @map("placed_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  user    User        @relation(fields: [userId], references: [id])
+  address Address?    @relation(fields: [addressId], references: [id], onDelete: SetNull)
+  items   OrderItem[]
+
+  @@index([userId, placedAt]) // order history: "my orders, newest first"
+  @@index([status]) // admin: "all pending orders"
+  @@map("orders")
+}
+
+// products change overtime (e.g. price), 
+// so we need to store the product  
+// that was ordered hence this model
+model OrderItem {
+  id           String  @id @default(uuid())
+  orderId      String  @map("order_id")
+  productId    String? @map("product_id")
+  productName  String  @map("product_name") @db.VarChar(255)
+  productImage String? @map("product_image") @db.Text
+  unitPrice    Decimal @map("unit_price") @db.Decimal(10, 2)
+  quantity     Int
+  subtotal     Decimal @db.Decimal(10, 2)
+
+  order   Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id], onDelete: SetNull) // can't delete order history if product is deleted
+
+  @@map("order_items")
+}

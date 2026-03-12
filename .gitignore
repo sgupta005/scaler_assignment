@@ -50,3 +50,6 @@ coverage/
 .cache/
 .parcel-cache/
 .turbo/
+
+# Prisma
+backend/prisma/generated/prisma

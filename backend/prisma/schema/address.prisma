@@ -1,0 +1,29 @@
+enum AddressType {
+  HOME
+  WORK
+}
+
+model Address {
+  id             String      @id @default(uuid())
+  userId         String      @map("user_id")
+  fullName       String      @map("full_name") @db.VarChar(100)
+  phone          String      @db.VarChar(10)
+  alternatePhone String?     @db.VarChar(10)
+  pincode        String      @db.VarChar(10)
+  state          String      @db.VarChar(100)
+  city           String      @db.VarChar(100)
+  line1          String      @db.Text
+  line2          String      @db.Text
+  landmark       String?     @db.Text
+  isDefault      Boolean     @default(false) @map("is_default")
+  type           AddressType @default(HOME) @map("type")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders Order[]
+
+  @@index([userId]) // "get all addresses for this user"
+  @@map("addresses")
+}

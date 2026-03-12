@@ -1,0 +1,31 @@
+// Cart supports both guest and logged-in users.
+// - Guest carts: userId is NULL, identified by sessionId
+// - On login: guest cart is merged into the user's cart via sessionId
+
+model Cart {
+  id        String  @id @default(uuid())
+  userId    String? @map("user_id")
+  sessionId String? @unique @map("session_id") @db.VarChar(64)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user  User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  cartId    String   @map("cart_id")
+  productId String   @map("product_id")
+  quantity  Int      @default(1)
+  addedAt   DateTime @default(now()) @map("added_at")
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
