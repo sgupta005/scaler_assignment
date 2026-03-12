@@ -1,4 +1,5 @@
-import { ChevronDown, Search, ShoppingCart, CircleUser } from 'lucide-react';
+import { ChevronDown, ShoppingCart, CircleUser } from 'lucide-react';
+import { SearchBar } from './search-bar';
 
 export function Navbar() {
   return (
@@ -13,16 +14,7 @@ export function Navbar() {
         {/* Search Bar and Right Actions */}
         <div className="flex items-center justify-between px-3">
           {/* Search Bar */}
-          <div className="flex-1 max-w-3xl">
-            <div className="flex items-center w-full border-2 border-blue-400 rounded-lg px-4 py-2 hover:bg-white hover:border-blue-400 transition-colors">
-              <Search size={22} className="text-gray-500" strokeWidth={1.5} />
-              <input
-                type="text"
-                placeholder="Search for Products, Brands and More"
-                className="w-full bg-transparent border-none outline-none pl-4 text-[15px] text-gray-800 placeholder-[#717478]"
-              />
-            </div>
-          </div>
+          <SearchBar />
 
           {/* Right Actions */}
           <div className="flex items-center gap-4">
