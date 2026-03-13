@@ -1,9 +1,15 @@
 import { apiFetch } from './client';
 import type {
   FetchProductsParams,
+  ProductDetail,
   ProductListResponse,
   SearchSuggestion,
 } from '../types/products';
+
+export async function fetchProductById(id: string): Promise<ProductDetail> {
+  const json = await apiFetch<{ data: ProductDetail }>(`/api/products/${id}`);
+  return json.data;
+}
 
 export async function searchProducts(
   q: string,

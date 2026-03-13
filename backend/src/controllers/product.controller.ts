@@ -151,6 +151,13 @@ export const getProductById = asyncHandler(
             id: true,
             name: true,
             slug: true,
+            parent: {
+              select: {
+                id: true,
+                name: true,
+                slug: true,
+              },
+            },
           },
         },
       },

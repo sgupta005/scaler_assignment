@@ -27,6 +27,34 @@ export interface ProductListResponse {
   pageSize: number;
 }
 
+export interface ProductImage {
+  id: string;
+  url: string;
+  isPrimary: boolean;
+}
+
+export interface ProductDetail {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number;
+  mrp: number | null;
+  stock: number;
+  brand: string | null;
+  specifications: Record<string, unknown>;
+  category: {
+    id: string;
+    name: string;
+    slug: string;
+    parent: {
+      id: string;
+      name: string;
+      slug: string;
+    } | null;
+  } | null;
+  images: ProductImage[];
+}
+
 export interface FetchProductsParams {
   search?: string;
   categoryId?: string;
