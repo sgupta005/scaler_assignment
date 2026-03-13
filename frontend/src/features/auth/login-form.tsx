@@ -2,15 +2,18 @@ import { useState } from 'react';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { login } from '../../api/auth';
 import { useAuth } from '../../context/auth-context';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 
 interface LoginFormProps {
   onSwitch: () => void;
+  onSuccess?: () => void;
 }
 
-export function LoginForm({ onSwitch }: LoginFormProps) {
+export function LoginForm({ onSwitch, onSuccess }: LoginFormProps) {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirect') ?? '/';
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +27,11 @@ export function LoginForm({ onSwitch }: LoginFormProps) {
     try {
       const { token, user } = await login({ identifier, password });
       setAuth(token, user);
-      navigate('/');
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        navigate(redirectTo);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
     } finally {

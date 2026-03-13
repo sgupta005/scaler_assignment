@@ -2,15 +2,18 @@ import { useState } from 'react';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { signup } from '../../api/auth';
 import { useAuth } from '../../context/auth-context';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 
 interface SignupFormProps {
   onSwitch: () => void;
+  onSuccess?: () => void;
 }
 
-export function SignupForm({ onSwitch }: SignupFormProps) {
+export function SignupForm({ onSwitch, onSuccess }: SignupFormProps) {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirect') ?? '/';
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -27,7 +30,11 @@ export function SignupForm({ onSwitch }: SignupFormProps) {
       const payload = { name, email, password, ...(phone ? { phone } : {}) };
       const { token, user } = await signup(payload);
       setAuth(token, user);
-      navigate('/');
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        navigate(redirectTo);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Signup failed');
     } finally {
