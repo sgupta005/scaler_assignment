@@ -2,6 +2,13 @@
 
 **Live Demo:** [https://scaler-assignment-mu.vercel.app/](https://scaler-assignment-mu.vercel.app/)
 
+## Test Credentials
+
+| Field    | Value          |
+| -------- | -------------- |
+| Email    | test@gmail.com |
+| Password | test123        |
+
 ---
 
 ## Tech Stack
@@ -79,12 +86,3 @@ cd frontend
 pnpm install
 pnpm dev               # runs on http://localhost:5173
 ```
-
----
-
-## Test Credentials
-
-| Field    | Value                      |
-| -------- | -------------------------- |
-| Email    | shivamgupta02005@gmail.com |
-| Password | shivam2005                 |

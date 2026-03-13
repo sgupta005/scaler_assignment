@@ -14,8 +14,8 @@ export function LoginForm({ onSwitch, onSuccess }: LoginFormProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirect') ?? '/';
-  const [identifier, setIdentifier] = useState('shivamgupta02005@gmail.com');
-  const [password, setPassword] = useState('shivam2005');
+  const [identifier, setIdentifier] = useState('test@gmail.com');
+  const [password, setPassword] = useState('test123');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
