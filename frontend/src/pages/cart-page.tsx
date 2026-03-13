@@ -35,7 +35,7 @@ export function CartPage() {
 
   return (
     <div className="py-6 px-3">
-      <div className="flex gap-4 items-start">
+      <div className="flex flex-col md:flex-row gap-4 items-start">
         {/* Cart items */}
         <div className="flex-1 flex flex-col gap-3 min-w-0">
           {cart.items.map((item) => (
@@ -44,7 +44,7 @@ export function CartPage() {
         </div>
 
         {/* Price details sidebar */}
-        <div className="w-72 shrink-0">
+        <div className="w-full md:w-72 shrink-0">
           <PriceDetails cart={cart} />
         </div>
       </div>

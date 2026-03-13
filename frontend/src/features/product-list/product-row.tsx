@@ -11,7 +11,7 @@ interface ProductRowProps {
 
 export function ProductRow({ title, categorySlug, products }: ProductRowProps) {
   return (
-    <section className="bg-white">
+    <section className="bg-white px-2">
       <div className="flex items-center justify-between pr-4 pt-4 pb-4">
         <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
         <Link

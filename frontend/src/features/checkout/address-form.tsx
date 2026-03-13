@@ -69,7 +69,7 @@ export function AddressForm({ onSave, onCancel }: AddressFormProps) {
       )}
 
       {/* Name + Phone */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-gray-600 uppercase tracking-wide">
             Full Name <span className="text-red-500">*</span>
@@ -100,7 +100,7 @@ export function AddressForm({ onSave, onCancel }: AddressFormProps) {
       </div>
 
       {/* Pincode + State + City */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-gray-600 uppercase tracking-wide">
             Pincode <span className="text-red-500">*</span>
@@ -173,7 +173,7 @@ export function AddressForm({ onSave, onCancel }: AddressFormProps) {
       </div>
 
       {/* Landmark + Alternate Phone */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-gray-600 uppercase tracking-wide">
             Landmark (Optional)

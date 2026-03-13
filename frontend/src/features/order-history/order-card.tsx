@@ -53,8 +53,8 @@ export function OrderCard({ order }: { order: Order }) {
       {/* Items */}
       <div className="divide-y divide-gray-100">
         {order.items.map((item) => (
-          <div key={item.id} className="flex items-center gap-4 px-5 py-4">
-            <div className="w-16 h-16 shrink-0 flex items-center justify-center border border-gray-100 rounded bg-white">
+          <div key={item.id} className="flex items-start gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-4">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 flex items-center justify-center border border-gray-100 rounded bg-white">
               {item.productImage ? (
                 <img
                   src={item.productImage}
@@ -79,9 +79,9 @@ export function OrderCard({ order }: { order: Order }) {
             </div>
 
             <div className="shrink-0 text-right">
-              <div className={`flex items-center gap-1.5 justify-end ${status.color}`}>
-                <span className={`w-2 h-2 rounded-full ${status.dot}`} />
-                <span className="text-sm font-semibold">{status.label}</span>
+              <div className={`flex items-center gap-1 sm:gap-1.5 justify-end ${status.color}`}>
+                <span className={`w-2 h-2 rounded-full shrink-0 ${status.dot}`} />
+                <span className="text-xs sm:text-sm font-semibold">{status.label}</span>
               </div>
               {order.status === 'DELIVERED' && (
                 <p className="text-xs text-gray-500 mt-0.5">Your item has been delivered</p>

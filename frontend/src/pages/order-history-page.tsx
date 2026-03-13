@@ -59,7 +59,7 @@ export function OrderHistoryPage() {
   }
 
   return (
-    <div className="py-4">
+    <div className="py-4 px-4">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-xl font-bold text-gray-800 mb-4">My Orders</h1>
         <div className="flex flex-col gap-3">

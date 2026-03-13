@@ -101,9 +101,9 @@ export function CheckoutPage() {
     addresses.find((a) => a.id === selectedAddressId) ?? null;
 
   return (
-    <div className="py-4">
+    <div className="py-4 px-4">
       <div className="max-w-5xl mx-auto">
-        <div className="flex gap-4 items-start pb-8">
+        <div className="flex flex-col md:flex-row gap-4 items-start pb-8">
           <div className="flex-1 min-w-0">
             <div className="bg-white border border-gray-200 rounded-t-sm overflow-hidden">
               <CheckoutStepper step={step} />
@@ -133,7 +133,7 @@ export function CheckoutPage() {
             )}
           </div>
 
-          <div className="w-72 shrink-0">
+          <div className="w-full md:w-72 shrink-0">
             <CheckoutPriceSidebar
               originalTotal={originalTotal}
               discount={discount}

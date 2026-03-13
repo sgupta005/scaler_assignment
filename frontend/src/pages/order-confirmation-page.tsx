@@ -42,7 +42,7 @@ export function OrderConfirmationPage() {
   const totalSaved = Number(order.discount);
 
   return (
-    <div className="py-4">
+    <div className="py-4 px-4">
       <div className="max-w-2xl mx-auto flex flex-col gap-4">
         {/* Success banner */}
         <div className="bg-white border border-gray-200 rounded-sm px-6 py-6 flex flex-col items-center text-center gap-3">

@@ -11,7 +11,7 @@ interface CheckoutStepperProps {
 
 export function CheckoutStepper({ step }: CheckoutStepperProps) {
   return (
-    <div className="px-8 py-4 flex items-center justify-center gap-0">
+    <div className="px-3 sm:px-8 py-4 flex items-center justify-center gap-0">
       {STEPS.map(({ n, label }, i) => {
         const isDone = n < step;
         const isActive = n === step;

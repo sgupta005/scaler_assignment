@@ -107,12 +107,15 @@ export function ProductDetailPage() {
     <div className="bg-white min-h-screen">
       <Breadcrumb items={buildBreadcrumbs(product)} />
 
-      <div className="flex items-start">
-        <div className="w-1/2 sticky top-[145px] self-start p-6">
+      <div className="flex flex-col md:flex-row items-start">
+        <div className="w-full md:w-1/2 md:sticky md:top-[145px] md:self-start p-4 md:p-6">
           <ImageGrid images={product.images} name={product.name} />
         </div>
 
-        <div ref={rightColRef} className="w-1/2 p-6 border-l border-gray-100">
+        <div
+          ref={rightColRef}
+          className="w-full md:w-1/2 p-4 md:p-6 border-t md:border-t-0 md:border-l border-gray-100"
+        >
           <ProductInfo product={product} />
         </div>
       </div>

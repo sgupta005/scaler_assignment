@@ -32,7 +32,7 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-300">
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-300 px-2">
       <div className="flex flex-col py-4 gap-4">
         {/* Logo */}
         <Link to="/">
@@ -43,7 +43,7 @@ export function Navbar() {
         </Link>
 
         {/* Search Bar and Right Actions */}
-        <div className="flex items-center justify-between px-3">
+        <div className="flex items-center justify-between px-3 gap-2">
           {/* Search Bar */}
           <SearchBar />
 
