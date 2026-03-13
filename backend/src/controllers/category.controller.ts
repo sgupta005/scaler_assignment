@@ -22,15 +22,18 @@ export const getCategorySections = asyncHandler(
     } = parsed.data;
 
     let parentId: string | undefined;
+    let parentCategory: { id: string; name: string; slug: string } | undefined;
+
     if (parentSlug) {
       const parent = await prisma.category.findUnique({
         where: { slug: parentSlug },
-        select: { id: true },
+        select: { id: true, name: true, slug: true },
       });
       if (!parent) {
         throw new CustomError('Parent category not found', 404);
       }
       parentId = parent.id;
+      parentCategory = parent;
     }
 
     const baseWhere = {
@@ -42,10 +45,47 @@ export const getCategorySections = asyncHandler(
       },
     };
 
-    // check if cursor is out of range
     const totalCategories = await prisma.category.count({
       where: baseWhere,
     });
+
+    // Leaf category: parentSlug was given but the category has no children with
+    // active products. Return the category itself as a single section.
+    if (parentSlug && parentCategory && totalCategories === 0) {
+      const products = await prisma.product.findMany({
+        where: {
+          categoryId: parentCategory.id,
+          isActive: true,
+        },
+        orderBy: { createdAt: 'desc' },
+        take: productsPerCategory,
+        include: {
+          images: {
+            where: { isPrimary: true },
+            orderBy: { sortOrder: 'asc' },
+            take: 1,
+          },
+        },
+      });
+
+      const mappedProducts = products.map((p) => ({
+        id: p.id,
+        name: p.name,
+        image: p.images[0]?.imageUrl ?? '',
+        originalPrice: Number(p.mrp ?? p.price),
+        discountedPrice: Number(p.price),
+        rating: 4.3,
+      }));
+
+      const response = new ApiResponse(200, {
+        sections: [{ category: parentCategory, products: mappedProducts }],
+        nextCursor: null,
+        totalCategories: 1,
+      });
+      res.status(200).json(response);
+      return;
+    }
+
     if (cursor >= totalCategories && totalCategories !== 0) {
       throw new CustomError('Cursor out of range', 400);
     }
