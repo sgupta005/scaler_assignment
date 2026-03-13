@@ -1,3 +1,4 @@
+import { apiFetch } from './client';
 import type {
   FetchProductsParams,
   ProductListResponse,
@@ -9,11 +10,9 @@ export async function searchProducts(
   limit = 8,
 ): Promise<SearchSuggestion[]> {
   const params = new URLSearchParams({ q, limit: String(limit) });
-  const res = await fetch(`/api/products/search?${params}`);
-  if (!res.ok) {
-    throw new Error(`Search failed: ${res.status}`);
-  }
-  const json = await res.json();
+  const json = await apiFetch<{ data: { items: SearchSuggestion[] } }>(
+    `/api/products/search?${params}`,
+  );
   return json.data.items;
 }
 
@@ -34,10 +33,8 @@ export async function fetchProducts(
   if (params.pageSize !== undefined)
     query.set('pageSize', String(params.pageSize));
 
-  const res = await fetch(`/api/products?${query}`);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch products: ${res.status}`);
-  }
-  const json = await res.json();
+  const json = await apiFetch<{ data: ProductListResponse }>(
+    `/api/products?${query}`,
+  );
   return json.data;
 }

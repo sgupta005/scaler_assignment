@@ -1,3 +1,4 @@
+import { apiFetch } from './client';
 import type { Category, CategorySectionsResponse } from '../types/categories';
 
 export async function fetchCategorySections(
@@ -15,21 +16,15 @@ export async function fetchCategorySections(
     ...(parentSlug && { parentSlug }),
   });
 
-  const res = await fetch(`/api/categories/sections?${params}`);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch category sections: ${res.status}`);
-  }
-
-  const json = await res.json();
+  const json = await apiFetch<{ data: CategorySectionsResponse }>(
+    `/api/categories/sections?${params}`,
+  );
   return json.data;
 }
 
 export async function fetchAllCategories(): Promise<Category[]> {
-  const res = await fetch('/api/categories');
-  if (!res.ok) {
-    throw new Error(`Failed to fetch categories: ${res.status}`);
-  }
-
-  const json = await res.json();
+  const json = await apiFetch<{ data: { categories: Category[] } }>(
+    '/api/categories',
+  );
   return json.data.categories;
 }
