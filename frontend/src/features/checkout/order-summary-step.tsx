@@ -28,7 +28,9 @@ export function OrderSummaryStep({
               </span>
             </div>
             <div className="flex items-center gap-2 flex-wrap ml-5">
-              <span className="font-semibold text-gray-800">{address.fullName}</span>
+              <span className="font-semibold text-gray-800">
+                {address.fullName}
+              </span>
               <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded font-medium uppercase tracking-wide">
                 {address.type}
               </span>
@@ -73,11 +75,15 @@ export function OrderSummaryStep({
                     {item.product.name}
                   </p>
                   {item.product.brand && (
-                    <p className="text-xs text-gray-500 mt-0.5">{item.product.brand}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      {item.product.brand}
+                    </p>
                   )}
                   <div className="flex items-center gap-2 mt-1 flex-wrap">
                     {discountPct > 0 && (
-                      <span className="text-xs text-green-600 font-medium">↓{discountPct}%</span>
+                      <span className="text-xs text-green-600 font-medium">
+                        ↓{discountPct}%
+                      </span>
                     )}
                     {mrp > item.product.price && (
                       <span className="text-xs text-gray-400 line-through">
@@ -88,7 +94,9 @@ export function OrderSummaryStep({
                       ₹{item.product.price.toLocaleString('en-IN')}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">Qty: {item.quantity}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Qty: {item.quantity}
+                  </p>
                 </div>
               </div>
             );

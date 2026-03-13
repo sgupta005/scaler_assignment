@@ -23,7 +23,6 @@ export function AddressStep({
   onShowForm,
   onHideForm,
   onAddressSaved,
-  onContinue,
 }: AddressStepProps) {
   return (
     <div className="bg-white border border-gray-200 rounded-sm">
@@ -82,14 +81,6 @@ export function AddressStep({
                   </div>
                 </label>
               ))}
-
-              {/* <button
-                onClick={onContinue}
-                disabled={!selectedAddressId}
-                className="self-start mt-2 bg-[#fb641b] hover:bg-[#e85d18] text-white font-semibold px-10 py-3 rounded-sm transition-colors disabled:opacity-50"
-              >
-                Deliver Here
-              </button> */}
             </div>
           )}
 
