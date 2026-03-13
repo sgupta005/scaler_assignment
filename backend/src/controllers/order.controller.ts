@@ -102,6 +102,21 @@ export const placeOrder = asyncHandler(
   },
 );
 
+export const getOrderHistory = asyncHandler(
+  async (req: AuthRequest, res: Response, _next: NextFunction) => {
+    const userId = req.userId;
+    if (!userId) throw new CustomError('Unauthorized', 401);
+
+    const orders = await prisma.order.findMany({
+      where: { userId },
+      include: { items: true },
+      orderBy: { placedAt: 'desc' },
+    });
+
+    res.status(200).json(new ApiResponse(200, { orders }));
+  },
+);
+
 export const getOrder = asyncHandler(
   async (req: AuthRequest, res: Response, _next: NextFunction) => {
     const userId = req.userId;

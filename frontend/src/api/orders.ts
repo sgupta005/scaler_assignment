@@ -15,6 +15,13 @@ export async function placeOrder(addressId: string): Promise<Order> {
   return json.data.order;
 }
 
+export async function fetchOrders(): Promise<Order[]> {
+  const json = await apiFetch<{ data: { orders: Order[] } }>('/api/orders', {
+    headers: authHeaders(),
+  });
+  return json.data.orders;
+}
+
 export async function fetchOrder(orderId: string): Promise<Order> {
   const json = await apiFetch<{ data: { order: Order } }>(`/api/orders/${orderId}`, {
     headers: authHeaders(),
