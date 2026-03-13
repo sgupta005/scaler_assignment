@@ -1,7 +1,11 @@
 import { ChevronDown, ShoppingCart, CircleUser } from 'lucide-react';
+import { Link } from 'react-router';
 import { SearchBar } from './search-bar';
+import { useCart } from '../context/cart-context';
 
 export function Navbar() {
+  const { itemCount } = useCart();
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-300">
       <div className="flex flex-col py-4 gap-4">
@@ -35,15 +39,20 @@ export function Navbar() {
               />
             </button>
 
-            <button className="flex items-center gap-4 py-2 rounded-lg transition-colors">
+            <Link
+              to="/cart"
+              className="flex items-center gap-2 py-2 rounded-lg transition-colors hover:text-blue-600"
+            >
               <div className="relative">
                 <ShoppingCart size={22} strokeWidth={1.5} />
-                <span className="absolute -top-1.5 -right-2 bg-[#ff6161] text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex justify-center items-center border border-white font-semibold px-1">
-                  2
-                </span>
+                {itemCount > 0 && (
+                  <span className="absolute -top-1.5 -right-2 bg-[#ff6161] text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex justify-center items-center border border-white font-semibold px-1">
+                    {itemCount > 99 ? '99+' : itemCount}
+                  </span>
+                )}
               </div>
               <span>Cart</span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

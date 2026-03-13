@@ -5,6 +5,7 @@ import logger from './middlewares/logger.js';
 import globalErrorHandler from './middlewares/global-error-handler.js';
 import categoryRouter from './routes/category.routes.js';
 import productRouter from './routes/product.routes.js';
+import cartRouter from './routes/cart.routes.js';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(logger);
 
 app.use('/api/categories', categoryRouter);
 app.use('/api/products', productRouter);
+app.use('/api/cart', cartRouter);
 
 app.use(globalErrorHandler);
 

@@ -1,16 +1,44 @@
 import { ShieldCheck, Truck, RotateCcw } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import type { ProductDetail } from '../../types/products';
 import { SpecificationsTable } from './specifications-table';
+import { useCart } from '../../context/cart-context';
 
 interface ProductInfoProps {
   product: ProductDetail;
 }
 
 export function ProductInfo({ product }: ProductInfoProps) {
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [buyingNow, setBuyingNow] = useState(false);
+
   const discount =
     product.mrp && product.mrp > product.price
       ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
       : null;
+
+  async function handleAddToCart() {
+    setAddingToCart(true);
+    try {
+      await addToCart(product.id, 1);
+      navigate('/cart');
+    } finally {
+      setAddingToCart(false);
+    }
+  }
+
+  async function handleBuyNow() {
+    setBuyingNow(true);
+    try {
+      await addToCart(product.id, 1);
+      navigate('/checkout');
+    } finally {
+      setBuyingNow(false);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -50,16 +78,18 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
       <div className="flex gap-3 pt-1">
         <button
-          disabled={product.stock === 0}
+          onClick={handleAddToCart}
+          disabled={product.stock === 0 || addingToCart}
           className="flex-1 rounded-xl bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 transition-colors"
         >
-          Add to Cart
+          {addingToCart ? 'Adding…' : 'Add to Cart'}
         </button>
         <button
-          disabled={product.stock === 0}
+          onClick={handleBuyNow}
+          disabled={product.stock === 0 || buyingNow}
           className="flex-1 rounded-xl bg-yellow-400 hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed text-gray-900 font-semibold py-3 transition-colors"
         >
-          Buy Now
+          {buyingNow ? 'Processing…' : 'Buy Now'}
         </button>
       </div>
 
