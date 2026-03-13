@@ -2,6 +2,8 @@ import { Trash2, BookmarkPlus } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import type { CartItem } from '../../types/cart';
 import { useCart } from '../../context/cart-context';
+import { useWishlist } from '../../context/wishlist-context';
+import { useAuth } from '../../context/auth-context';
 
 interface CartItemRowProps {
   item: CartItem;
@@ -9,8 +11,19 @@ interface CartItemRowProps {
 
 export function CartItemRow({ item }: CartItemRowProps) {
   const { updateQty, removeItem } = useCart();
+  const { addToWishlist, isInWishlist } = useWishlist();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { product } = item;
+
+  const alreadyInWishlist = isInWishlist(product.id);
+
+  async function handleSaveForLater() {
+    if (!alreadyInWishlist) {
+      await addToWishlist(product.id);
+    }
+    removeItem(item.id);
+  }
 
   const discount =
     product.mrp && product.mrp > product.price
@@ -100,12 +113,19 @@ export function CartItemRow({ item }: CartItemRowProps) {
           <span>Remove</span>
         </button>
 
-        <div className="w-px h-5 bg-gray-200 mx-1" />
+        {user && (
+          <>
+            <div className="w-px h-5 bg-gray-200 mx-1" />
 
-        <button className="flex items-center gap-1.5 px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors">
-          <BookmarkPlus size={15} />
-          <span>Save for later</span>
-        </button>
+            <button
+              onClick={handleSaveForLater}
+              className="flex items-center gap-1.5 px-4 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            >
+              <BookmarkPlus size={15} />
+              <span>Save for later</span>
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
