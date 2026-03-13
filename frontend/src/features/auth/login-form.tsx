@@ -14,8 +14,8 @@ export function LoginForm({ onSwitch, onSuccess }: LoginFormProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirect') ?? '/';
-  const [identifier, setIdentifier] = useState('');
-  const [password, setPassword] = useState('');
+  const [identifier, setIdentifier] = useState('shivamgupta02005@gmail.com');
+  const [password, setPassword] = useState('shivam2005');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -55,7 +55,9 @@ export function LoginForm({ onSwitch, onSuccess }: LoginFormProps) {
       )}
 
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-gray-700">Email / Mobile number</label>
+        <label className="text-sm font-medium text-gray-700">
+          Email / Mobile number
+        </label>
         <input
           type="text"
           value={identifier}
@@ -89,8 +91,14 @@ export function LoginForm({ onSwitch, onSuccess }: LoginFormProps) {
 
       <p className="text-xs text-gray-500">
         By continuing, you agree to Flipkart's{' '}
-        <span className="text-blue-600 cursor-pointer hover:underline">Terms of Use</span> and{' '}
-        <span className="text-blue-600 cursor-pointer hover:underline">Privacy Policy</span>.
+        <span className="text-blue-600 cursor-pointer hover:underline">
+          Terms of Use
+        </span>{' '}
+        and{' '}
+        <span className="text-blue-600 cursor-pointer hover:underline">
+          Privacy Policy
+        </span>
+        .
       </p>
 
       <button
