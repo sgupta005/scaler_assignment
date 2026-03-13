@@ -6,7 +6,14 @@ export async function apiFetch<T = unknown>(
 ): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, init);
   if (!res.ok) {
-    throw new Error(`API error ${res.status}: ${path}`);
+    const body = await res.json().catch(() => null);
+    const message = body?.message ?? `API error ${res.status}: ${path}`;
+    throw new Error(message);
   }
   return res.json() as Promise<T>;
+}
+
+export function authHeaders(): HeadersInit {
+  const token = localStorage.getItem('fk_token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
 }
